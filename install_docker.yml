@@ -1,0 +1,31 @@
+---
+- hosts: docker
+#   vars:
+#     do_token: e82e14838fea6052b997a1d95d846c0b613aebd2b18fe6c77a747533e52f50dd
+    
+  tasks:
+  - name: Add docker apt repo
+    apt_repository:
+      repo='deb https://apt.dockerproject.org/repo ubuntu-{{ ansible_distribution_release }} main'
+      state=present
+
+  - name: Import the Docker repository key
+    apt_key:
+      url=https://apt.dockerproject.org/gpg
+      state=present
+      id=2C52609D
+
+  - name: Install Docker package
+    apt:
+      name=docker-engine
+      update_cache=yes
+    
+  - name: Install python-pip
+    apt:
+      name=python-pip
+      update_cache=yes
+      
+  - name: Install docker-py
+    pip: 
+      name=docker-py 
+      state=present

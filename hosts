@@ -1,0 +1,5 @@
+[do]
+localhost ansible_connection=local
+
+[docker]
+128.199.69.64

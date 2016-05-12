@@ -1,0 +1,16 @@
+- hosts: docker
+  vars:
+    web1: xxx.wpfresh.co,xxx.aifaucet.com
+    mail: ithoaiphuong1987@gmail.com
+  
+  
+  tasks:
+  - name: Install Ghost Blog with SSL
+    docker:
+      name: ghost003
+      image: ghost
+      state: started
+      env:
+        VIRTUAL_HOST="xxx.wpfresh.co,xxx.aifaucet.com"
+        LETSENCRYPT_HOST="xxx.wpfresh.co,xxx.aifaucet.com"
+        LETSENCRYPT_EMAIL={{ mail }}

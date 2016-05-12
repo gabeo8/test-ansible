@@ -1,0 +1,26 @@
+- hosts: docker
+
+  tasks:
+  - name: Install jwilder/nginx-proxy and 3 volumes
+    docker:
+      name: nginx-proxy
+      image: jwilder/nginx-proxy
+      state: started
+      ports:
+      - "80:80"
+      - "443:443"
+      volumes:
+      - "/path/to/certs:/etc/nginx/certs:ro"
+      - "/path/to/vhost.d:/etc/nginx/vhost.d"
+      - "/path/to/nginx/html:/usr/share/nginx/html"
+      - "/var/run/docker.sock:/tmp/docker.sock:ro"
+  - name: Install jrcs/letsencrypt-nginx-proxy-companion
+    docker:
+      name: letsencrypt-nginx-proxy-companion
+      image: jrcs/letsencrypt-nginx-proxy-companion
+      state: started
+      volumes:
+      - "/path/to/certs:/etc/nginx/certs:rw"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      volumes_from:
+      - nginx-proxy
